@@ -38,6 +38,8 @@ if (typeof persistenceDir === 'string') {
       const persistedYdoc = await ldb.getYDoc(docName)
       const newUpdates = Y.encodeStateAsUpdate(ydoc)
       ldb.storeUpdate(docName, newUpdates)
+      // store timestamp
+      ldb.setMeta(docName, 'timestamp', Date.now())
       Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(persistedYdoc))
       ydoc.on('update', update => {
         ldb.storeUpdate(docName, update)
